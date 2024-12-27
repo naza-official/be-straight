@@ -110,7 +110,7 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
             ])
           );
 
-          console.log("Metrics:", metrics, "Reasons:", reasons);
+          // console.log("Metrics:", metrics, "Reasons:", reasons);
           if (correct) {
             correctFrames++;
             // console.log("Posture is correct!");
