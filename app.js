@@ -235,34 +235,21 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
       window.location.protocol === "https:" ||
       window.location.hostname === "localhost"
     ) {
-      if (Notification.permission !== "granted") {
+      if (Notification.permission !== "granted")
         Notification.requestPermission((result) => {
-          if (result === "granted") {
+          if (result === "granted")
             browserNotificationsEnabled = !browserNotificationsEnabled;
-            if (browserNotificationsEnabled) {
-              console.log(
-                "Browser notifications enabled",
-                Notification.permission
-              );
-              notificationSound.play();
-            }
-          }
+          notificationsIcon.className = browserNotificationsEnabled
+            ? "ri-notification-2-fill"
+            : "ri-notification-2-line";
         });
-      } else {
-        browserNotificationsEnabled = !browserNotificationsEnabled;
-        if (browserNotificationsEnabled) {
-          console.log("Browser notifications enabled", Notification.permission);
-          notificationSound.play();
-        }
-      }
-    } else {
-      notificationsEnabled = !notificationsEnabled;
-      if (notificationsEnabled) notificationSound.play();
-    }
-    notificationsIcon.className =
-      notificationsEnabled || browserNotificationsEnabled
-        ? "ri-notification-2-fill"
-        : "ri-notification-2-line";
+      else browserNotificationsEnabled = !browserNotificationsEnabled;
+    } else notificationsEnabled = !notificationsEnabled;
+
+    if (notificationsEnabled || browserNotificationsEnabled) {
+      notificationsIcon.className = "ri-notification-2-fill";
+      notificationSound.play();
+    } else notificationsIcon.className = "ri-notification-2-line";
   });
 
   hourglassButton.addEventListener("click", (event) => {
