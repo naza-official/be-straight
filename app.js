@@ -10,7 +10,7 @@ const THRESHOLDS = {
   forwardDistance: 50,
   faceSize: 100,
 };
-const POSTURE_CORRECT_INCORRECT_FACTOR = 4;
+const POSTURE_CORRECT_INCORRECT_FACTOR = 3;
 
 const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
 
@@ -30,6 +30,8 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
 
   const infoButton = document.getElementById("info-icon");
   const faqButton = document.getElementById("faq-icon");
+
+  const popup = document.getElementById("popup");
 
   let cameraActive = false;
   let notificationsEnabled = false;
@@ -84,6 +86,21 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
     video.pause();
     video.srcObject.getTracks().forEach((track) => track.stop());
   };
+
+  async function checkCameraPermission() {
+    try {
+      await navigator.mediaDevices.getUserMedia({ video: true });
+      console.log("Camera access granted.");
+      return true;
+    } catch (error) {
+      if (error.name === "NotAllowedError") {
+        console.log("Camera access denied.");
+      } else {
+        console.log("Error accessing camera:", error);
+      }
+      return false;
+    }
+  }
 
   async function detectPosture() {
     if (!poseLandmarker) {
@@ -141,7 +158,10 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
 
     if (currentTimeMs - startTime >= ROUND_DURATION) {
       if (incorrectFrames * POSTURE_CORRECT_INCORRECT_FACTOR > correctFrames) {
-        console.log("Posture is incorrect!");
+        showPopup("Incorrect Posture!");
+        setTimeout(() => {
+          hidePopup();
+        }, ROUND_DURATION - 500);
         if (browserNotificationsEnabled) {
           const notification = new Notification("Posture Check", {
             body: "Keep Straight!",
@@ -191,6 +211,15 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
     }
   };
 
+  function showPopup(text) {
+    popup.textContent = text;
+    popup.classList.add("show");
+  }
+
+  function hidePopup() {
+    popup.classList.remove("show");
+  }
+
   window.addEventListener("click", (event) => {
     const modals = document.querySelectorAll(".modal");
     modals.forEach((modal) => {
@@ -212,17 +241,19 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
       cameraActive = !cameraActive;
 
       if (cameraActive) {
-        clearTimeout(checkIntervalTimeoutId);
-        updateRoundStartTime();
-        playPauseIcon.className = "ri-pause-large-line";
-        navigator.mediaDevices
-          .getUserMedia({
-            video: true,
-          })
-          .then((stream) => {
-            video.srcObject = stream;
-            video.addEventListener("loadeddata", detectPosture);
-          });
+        if (await checkCameraPermission()) {
+          clearTimeout(checkIntervalTimeoutId);
+          updateRoundStartTime();
+          playPauseIcon.className = "ri-pause-large-line";
+          navigator.mediaDevices
+            .getUserMedia({
+              video: true,
+            })
+            .then((stream) => {
+              video.srcObject = stream;
+              video.addEventListener("loadeddata", detectPosture);
+            });
+        }
       } else stopVideo();
     });
   } else {

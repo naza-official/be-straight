@@ -254,3 +254,27 @@ html {
   width: 70%;
   height: 70%;
 }
+
+.popup {
+  position: fixed;
+  top: -100px; /* Start off-screen */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 50px;
+  background-color: #ff4c4c; /* Brighter red background */
+  color: #8b0000; /* Darker red text */
+  border-radius: 8px;
+  display: flex;
+  align-items: center; /* Vertical centering */
+  justify-content: center; /* Horizontal centering */
+  text-align: center; /* Ensure text is centered for multiline */
+  box-shadow: 0 4px 10px rgba(139, 0, 0, 0.5), 0 0 20px rgba(139, 0, 0, 0.5); /* Darker red shadow */
+  transition: top 0.5s ease; /* Smooth animation */
+  z-index: 5;
+}
+
+/* Visible state */
+.popup.show {
+  top: 50px; /* Visible position */
+}
