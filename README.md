@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project is a web application that uses a laptop’s camera to monitor the user's posture and notify them when their posture is incorrect based on the head position with respect to the camera. The app is lightweight and runs entirely on the client side, ensuring privacy and efficiency.
+This project is a web application that uses a laptop’s camera to monitor the user's posture and notify them when their posture is incorrect based on the body position with respect to the camera. The app is lightweight and runs entirely on the client side, ensuring privacy and efficiency.
 
 ## Features
 
