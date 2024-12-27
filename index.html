@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be Straight!</title>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" type="image/x-icon" href="./favicon/favicon.ico">
+
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="./favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./favicon/android-chrome-512x512.png">
+
+  <link rel="manifest" href="favicon/site.webmanifest">
+</head>
+<body>
+  <video id="video" autoplay playsinline></video>
+  <canvas id="outputCanvas"></canvas>
+  <div id="controls">
+    <div class="control-icon" id="notifications-button">
+      <i class="ri-notification-2-line" id="notifications-icon"></i>
+    </div>
+    <div class="control-icon" id="play-pause-button">
+      <i class="ri-play-large-line" id="play-pause-icon"></i>
+    </div>
+    <div class="control-icon" id="hourglass-button">
+      <i class="ri-hourglass-line" id="hourglass-icon"></i>
+    </div>
+  </div>
+  <div id="info-icon">
+    <i class="ri-information-2-line"></i>
+  </div>
+  <div class="modal" id="info-modal" style="display: none;">
+    <div class="modal-content">
+      <h2>About "Be Straight!"</h2>
+      <p><strong>Author:</strong> Nazarii Nikitchyn</p>
+      <div class="social-links">
+        <span><i class="ri-github-fill"></i>GitHub: </span>
+        <a href="https://github.com/yourprofile" target="_blank">Be Straight!</a>
+      </div>
+      <p><strong>Version:</strong> 1.0.0 </p>
+    </div>
+  </div>
+
+  <dif id="faq-icon">
+    <i class="ri-question-line"></i>
+  </dif>
+
+  <div class="modal" id="faq-modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Welcome to "Be Straight!"</h2>
+      <div class="faq-item">
+        <i class="ri-play-fill"></i>
+        <span>Start posture monitoring. It will use client-side AI already present in your browser, so rest assured that your personal data will not be transmitted over the Internet.</span>
+      </div>
+      <div class="faq-item">
+        <i class="ri-notification-2-line"></i>
+        <span>Enable notifications: If you open this app on localhost or via HTTPS, it will show browser notifications; otherwise, you will only hear a sound from the tab.</span>
+      </div>
+      <div class="faq-item">
+        <i class="ri-hourglass-line"></i>
+        <span>Set a timeout for posture monitoring. This will reduce power consumption and make using the app in the background more convenient.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="hourglass-modal" style="display: none; ">
+    <div class="modal-content" >
+      <h2>Set Check Interval</h2>
+      <div class="interval-options" id="interval-options">
+        <div>
+          <input type="radio" id="interval0" name="interval" value="0" checked>
+          <label for="interval0">Without timeout</label>
+        </div>
+        <div>
+          <input type="radio" id="interval15" name="interval" value="15">
+          <label for="interval15">15 seconds</label>
+        </div>
+        <div>
+          <input type="radio" id="interval30" name="interval" value="30">
+          <label for="interval30">30 seconds</label>
+        </div>
+        <div>
+          <input type="radio" id="interval60" name="interval" value="60">
+          <label for="interval60">1 minute</label>
+        </div>
+        <div>
+          <input type="radio" id="interval300" name="interval" value="300">
+          <label for="interval300">5 minutes</label>
+        </div>
+      </div>
+      
+      <button class="modal-button" onclick="setCheckInterval()">Set Interval</button>
+    </div>
+  </div>
+
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+
