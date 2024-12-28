@@ -52,9 +52,10 @@ The application is accessible online through GitHub Pages. Simply visit:
 
 ## Future Improvements
 
-- Add support for advanced posture detection using machine learning models.
+- Add support for advanced posture detection using machine learning models and "fit model" mode.
 - Add user customization for alert messages and sound notifications.
 - Support mobile devices with front-facing cameras.
+- Add server-side support to enable account creation and store metrics about your progress in posture control. Integrate it with social media for enhanced functionality.
 
 ## Author
 
