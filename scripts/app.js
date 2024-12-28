@@ -1,3 +1,5 @@
+// © 2024 Nazarii Nikitchyn. All rights reserved.
+
 import {
   PoseLandmarker,
   FilesetResolver,

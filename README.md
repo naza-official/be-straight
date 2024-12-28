@@ -66,7 +66,7 @@ Data & Software Engineer
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+© 2024 Nazarii Nikitchyn. For personal use only. Commercial use is prohibited without permission. See [LICENSE](LICENSE) for details.
 
 ---
 
