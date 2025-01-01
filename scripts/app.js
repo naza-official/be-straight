@@ -16,6 +16,46 @@ const POSTURE_CORRECT_INCORRECT_FACTOR = 3;
 
 const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
 
+const notificationTemplate = {
+  title: "Be Straight!",
+  options: {
+    body: "You're slouching!",
+    icon: "./favicon/android-chrome-192x192.png",
+    badge: "./favicon/android-chrome-192x192.png",
+    tag: "posture-notification",
+  },
+};
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./serviceWorker.js")
+      .then((registration) => {
+        console.log(
+          "Service Worker registered with scope: ",
+          registration.scope
+        );
+      })
+      .catch((error) => {
+        console.error("Service Worker registration failed: ", error);
+      });
+  });
+}
+
+function sendNotification(
+  title = notificationTemplate.title,
+  options = notificationTemplate.options
+) {
+  if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({
+      type: "SEND_NOTIFICATION",
+      title: title,
+      options: options,
+    });
+  } else
+    new Notification(notificationTemplate.title, notificationTemplate.options);
+}
+
 (async () => {
   const video = document.getElementById("video");
 
@@ -80,6 +120,7 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
     correctFrames = 0;
     incorrectFrames = 0;
     startTime = performance.now();
+    // console.log(performance.now());
   };
 
   const stopVideo = () => {
@@ -92,7 +133,7 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
   async function checkCameraPermission() {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
-      console.log("Camera access granted.");
+      // console.log("Camera access granted.");
       return true;
     } catch (error) {
       if (error.name === "NotAllowedError") {
@@ -164,15 +205,7 @@ const MARKER_COLOR = "hsla(156, 71.00%, 50.00%, 0.99)";
         setTimeout(() => {
           hidePopup();
         }, ROUND_DURATION - 500);
-        if (browserNotificationsEnabled) {
-          const notification = new Notification("Posture Check", {
-            body: "Keep Straight!",
-          });
-
-          setTimeout(() => {
-            notification.close();
-          }, ROUND_DURATION - 500);
-        }
+        if (browserNotificationsEnabled) sendNotification();
         if (notificationsEnabled) notificationSound.play();
       }
 
